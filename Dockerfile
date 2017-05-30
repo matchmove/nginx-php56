@@ -11,8 +11,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Nginx-PHP Installation
 RUN apt-get update -y && apt-get install -y wget build-essential python-software-properties git-core vim nano
-RUN wget -O - https://download.newrelic.com/548C16BF.gpg | apt-key add - && \
-					echo "deb http://apt.newrelic.com/debian/ newrelic non-free" > /etc/apt/sources.list.d/newrelic.list
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 4F4EA0AAE5267A6C
 RUN add-apt-repository -y ppa:ondrej/php && add-apt-repository -y ppa:nginx/stable
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -q -y php5.6 php5.6-dev php5.6-fpm php5.6-mysqlnd \
@@ -20,9 +18,6 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -q -y php5.6 php5
 					php5.6-xml php5.6-xmlrpc newrelic-php5 nginx-full ntp
 
                     # php5.6-imagick ffmpeg imagemagick php-pear
-
-# Run update timezone replace city with relevant city. eg. "Australia/Sydney"
-RUN cp -p /usr/share/zoneinfo/Australia/Sydney /etc/localtime
 
 # Update PECL channel listing
 RUN pecl channel-update pecl.php.net
