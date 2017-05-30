@@ -58,33 +58,8 @@ ADD www/index.php /var/www/public/index.php
 RUN chown -R www-data:www-data /var/www
 RUN chmod -R 755 /var/www
 
-# Add New Relic APM install script
-RUN mkdir -p /etc/my_init.d
-ADD build/newrelic.sh /etc/my_init.d/newrelic.sh
-RUN chmod +x /etc/my_init.d/newrelic.sh
-
-# Setup environment variables for initializing New Relic APM
-ENV NR_INSTALL_SILENT 1
-ENV NR_INSTALL_KEY **ChangeMe**
-ENV NR_APP_NAME "Docker PHP Application"
-
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
-# Install Node Version Manager and install node specific version
-ENV NVM_DIR /usr/local/nvm
-ENV NVM_VERSION 0.33.0
-ENV NODE_VERSION 6.9.4
-
-# Install nvm with node and npm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v$NVM_VERSION/install.sh | bash \
-    && source $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default
-
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 # Set terminal environment
 ENV TERM=xterm
